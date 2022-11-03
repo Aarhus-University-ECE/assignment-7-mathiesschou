@@ -1,14 +1,12 @@
 #include "stack.h"
 #include <assert.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 void initialize(stack* s){
   //implement initialize here
 
   // starter med at pointeren til NULL
-  *s = NULL; 
+  s->head = NULL; 
 
 }
 
@@ -16,45 +14,43 @@ void push(int x, stack* s){
     //implement push here
   
     // allokerer hukommelse til ny node
-    node *t = (node *)malloc(sizeof(node));
+    node *new_t = (node *)malloc(sizeof(node));
 
     // pointer mod data og så pointer mod den næste værdi
-    t->data = x;
-    t->next = *s; 
+    new_t->data = x;
+    new_t->next = s->head;
+    s->head = new_t;
 
-    // topnoden bliver den nye node
-    *s = t; 
 }
 
 int pop(stack* s){
     // implement pop here
 
-    //pre: assert hvis vores pointer ikke er i toppen
-    assert(*s != null);
+    //frigører node fra top stack
+    node *t = s->head;
+    s->head = t->next;
+    int hold = t->data;
+    // befrier / sletter den
+    free(t);
 
-    //frigører node til p, og returnere værdien
-    node *p = *s;
-    *top = (*s)->next;
-
-    //tager dataen og sletter den
-    int temp = p->data;
-    free(p);
-
-  // returner dataen
-  return temp;
+  // returner hold
+  return hold;
 }
 
 bool empty(stack* s)
 {
   //implement empty here
-
+  if(s->head == NULL)
+  {
+    return true;
+  }
+  else 
   //return true, hvis top noden er NULL
-  return *s == NULL;
+  return false;
 }
 
 bool full(stack* s) {
-    //implement full here
-
-    // return false, hvis top noden ikke er NULL
-  return *s != NULL;
+   
+  //Den ændrer sig dymnamisk, så den kan ikke være fuld.
+  return;
 }
